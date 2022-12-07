@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "dev": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -16,5 +17,8 @@
   "bugs": {
     "url": "https://github.com/Aha00a/NormalizeArtists/issues"
   },
-  "homepage": "https://github.com/Aha00a/NormalizeArtists#readme"
+  "homepage": "https://github.com/Aha00a/NormalizeArtists#readme",
+  "dependencies": {
+    "fs-extra": "^11.1.0"
+  }
 }
