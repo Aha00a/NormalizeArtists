@@ -41,7 +41,14 @@ const traversePath = async (
         {pattern: /아이브/, replacement: 'IVE'},
     ];
 
-    traversePath({
+    const rename = (src, dst) => {
+        if(fs.existsSync(dst))
+            return rename(src, dst + '_');
+
+        fse.move(src, dst);
+    }
+
+    await traversePath({
         onFile: f => {
             arrayRegex.forEach(r => {
                 const newName = f.replace(r.pattern, r.replacement);
@@ -58,7 +65,7 @@ const traversePath = async (
                     return;
 
                 console.log(`redundant ${f} -> ${newName}`);
-                fse.move(f, newName);
+                rename(f, newName);
             })
         },
     });
