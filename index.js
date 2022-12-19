@@ -39,6 +39,7 @@ const traversePath = async (
         {pattern: /  +/, replacement: ' '},
         {pattern: /헤이즈/, replacement: 'Heize'},
         {pattern: /아이브/, replacement: 'IVE'},
+        {pattern: /아이유/, replacement: 'IU'},
     ];
 
     const rename = (src, dst) => {
@@ -64,7 +65,11 @@ const traversePath = async (
                 if(f === newName)
                     return;
 
-                console.log(`redundant ${f} -> ${newName}`);
+                console.log(`redundant\n${f}\n${newName}`);
+                const debug = false;
+                if(debug)
+                    return;
+
                 rename(f, newName);
             })
         },
