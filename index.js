@@ -41,6 +41,7 @@ const traversePath = async (
         {pattern: /아이브/, replacement: 'IVE'},
         {pattern: /아이유/, replacement: 'IU'},
         {pattern: /있지/, replacement: 'Itzy'},
+        {pattern: /테이\s/, replacement: 'Tei '},
     ];
 
     const rename = (src, dst) => {
@@ -50,7 +51,7 @@ const traversePath = async (
         fse.move(src, dst);
     }
 
-    const debug = false;
+    const debug = true;
 
     await traversePath({
         onFile: f => {
@@ -66,8 +67,9 @@ const traversePath = async (
                 rename(f, newName);
             })
             arrayRegex.forEach(r => {
-                const redundant = new RegExp(`${r.replacement} ?\\(${r.replacement}\\)`, 'i');
-                const newName = f.replace(redundant, r.replacement);
+                const replacement = r.replacement.replace(/\s+/, '');
+                const redundant = new RegExp(`${replacement} ?\\(${replacement}\\)`, 'i');
+                const newName = f.replace(redundant, replacement);
                 if(f === newName)
                     return;
 
