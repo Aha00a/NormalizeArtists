@@ -32,7 +32,7 @@ const traversePath = async (
             onFile(child);
         }
     });
-}
+};
 
 (async () => {
     const arrayRegex = [
