@@ -35,6 +35,7 @@ const traversePath = async (
 };
 
 (async () => {
+    // noinspection SpellCheckingInspection
     const arrayRegex = [
         {pattern: /  +/, replacement: ' '},
         {pattern: /헤이즈/, replacement: 'Heize'},
@@ -43,6 +44,7 @@ const traversePath = async (
         {pattern: /있지/, replacement: 'Itzy'},
         {pattern: /테이\s/, replacement: 'Tei '},
         {pattern: /어반 ?자카파/, replacement: 'Urban Zakapa'},
+        {pattern: /멜로망스/, replacement: 'MeloMance'},
     ];
 
     const rename = (src, dst) => {
