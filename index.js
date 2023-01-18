@@ -42,6 +42,7 @@ const traversePath = async (
         {pattern: /아이유/, replacement: 'IU'},
         {pattern: /있지/, replacement: 'Itzy'},
         {pattern: /테이\s/, replacement: 'Tei '},
+        {pattern: /어반 ?자카파/, replacement: 'Urban Zakapa'},
     ];
 
     const rename = (src, dst) => {
