@@ -39,17 +39,21 @@ const traversePath = async (
     // noinspection SpellCheckingInspection
     const arrayRegex = [
         {pattern: /  +/, replacement: ' '},
-        {pattern: /헤이즈/, replacement: 'Heize'},
-        {pattern: /아이브/, replacement: 'IVE'},
-        {pattern: /아이유/, replacement: 'IU'},
-        {pattern: /있지/, replacement: 'Itzy'},
-        {pattern: /테이\s/, replacement: 'Tei '},
-        {pattern: /어반 ?자카파/, replacement: 'Urban Zakapa'},
-        {pattern: /멜로망스/, replacement: 'MeloMance'},
-        {pattern: /르세라핌/, replacement: 'LE SSERAFIM'},
-        {pattern: /지코/, replacement: 'Zico'},
-        {pattern: /스테이씨/, replacement: 'STAYC'},
-    ];
+    ].concat([
+        {from: '헤이즈', to: 'Heize'},
+        {from: '아이브', to: 'IVE'},
+        {from: '아이유', to: 'IU'},
+        {from: '있지', to: 'Itzy'},
+        {from: '테이', to: 'Tei'},
+        {from: '어반 ?자카파', to: 'Urban Zakapa'},
+        {from: '멜로망스', to: 'MeloMance'},
+        {from: '르 ?세라핌', to: 'LE SSERAFIM'},
+        {from: '지코', to: 'Zico'},
+        {from: '스테이씨', to: 'STAYC'},
+    ].map(fromTo => ({
+        pattern: new RegExp(`(?<=^|\\P{L})${fromTo.from}(?=\\P{L}|$)`, 'gui'),
+        replacement: fromTo.to,
+    })));
 
     const rename = (src, dst) => {
         if(fs.existsSync(dst))
