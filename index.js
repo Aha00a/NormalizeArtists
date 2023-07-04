@@ -1,7 +1,7 @@
 const fs = require("fs");
 const fse = require('fs-extra');
 
-const dryRun = false;
+const dryRun = true;
 const verbose = true;
 
 const traversePath = async (
@@ -46,6 +46,7 @@ const traversePath = async (
         {pattern: /테이\s/, replacement: 'Tei '},
         {pattern: /어반 ?자카파/, replacement: 'Urban Zakapa'},
         {pattern: /멜로망스/, replacement: 'MeloMance'},
+        {pattern: /르세라핌/, replacement: 'LE SSERAFIM'},
     ];
 
     const rename = (src, dst) => {
@@ -56,30 +57,32 @@ const traversePath = async (
     }
 
     await traversePath({
-        onFile: f => {
+        onFile: pathFile => {
             arrayRegex.forEach(r => {
-                const newName = f.replace(r.pattern, r.replacement);
-                if(f === newName)
+                const newName = pathFile.replace(r.pattern, r.replacement);
+                if(pathFile === newName)
                     return;
 
-                console.log(`detected\n${f}\n${newName}`);
+                console.log(`detected\n${pathFile}\n${newName}`);
                 if(dryRun)
                     return;
 
-                rename(f, newName);
+                rename(pathFile, newName);
             })
             arrayRegex.forEach(r => {
-                const replacement = r.replacement.replace(/\s+/, '');
-                const redundant = new RegExp(`${replacement} ?\\(${replacement}\\)`, 'i');
-                const newName = f.replace(redundant, replacement);
-                if(f === newName)
+                // workaround for
+                //    /\b테이\b/gu
+                //    테이 스테이 스테이크 테이크 a테이 테이A 테이 테이
+                //    테이 노노노 노노노노 노노노 n노노 노노A 테이 테이
+                const pathFileReplaced = pathFile.replaceAll(new RegExp(`(?<=^|\\P{L})${r.replacement}(?=\\P{L}|$) ?\\(${r.replacement}\\)`, 'gu'), r.replacement)
+                if(pathFile === pathFileReplaced)
                     return;
 
-                console.log(`redundant\n${f}\n${newName}`);
+                console.log(`--------\n${pathFile}\n${pathFileReplaced}`);
                 if(dryRun)
                     return;
 
-                rename(f, newName);
+                rename(pathFile, pathFileReplaced);
             })
         },
     });
