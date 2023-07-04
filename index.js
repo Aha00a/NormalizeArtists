@@ -1,7 +1,8 @@
 const fs = require("fs");
 const fse = require('fs-extra');
 
-const verbose = false;
+const dryRun = false;
+const verbose = true;
 
 const traversePath = async (
     {
@@ -54,8 +55,6 @@ const traversePath = async (
         fse.move(src, dst);
     }
 
-    const debug = true;
-
     await traversePath({
         onFile: f => {
             arrayRegex.forEach(r => {
@@ -64,7 +63,7 @@ const traversePath = async (
                     return;
 
                 console.log(`detected\n${f}\n${newName}`);
-                if(debug)
+                if(dryRun)
                     return;
 
                 rename(f, newName);
@@ -77,7 +76,7 @@ const traversePath = async (
                     return;
 
                 console.log(`redundant\n${f}\n${newName}`);
-                if(debug)
+                if(dryRun)
                     return;
 
                 rename(f, newName);
