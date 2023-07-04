@@ -47,6 +47,8 @@ const traversePath = async (
         {pattern: /어반 ?자카파/, replacement: 'Urban Zakapa'},
         {pattern: /멜로망스/, replacement: 'MeloMance'},
         {pattern: /르세라핌/, replacement: 'LE SSERAFIM'},
+        {pattern: /지코/, replacement: 'Zico'},
+        {pattern: /스테이씨/, replacement: 'STAYC'},
     ];
 
     const rename = (src, dst) => {
@@ -71,10 +73,10 @@ const traversePath = async (
             })
             arrayRegex.forEach(r => {
                 // workaround for
-                //    /\b테이\b/gu
+                //    /\b테이\b/gui
                 //    테이 스테이 스테이크 테이크 a테이 테이A 테이 테이
                 //    테이 노노노 노노노노 노노노 n노노 노노A 테이 테이
-                const pathFileReplaced = pathFile.replaceAll(new RegExp(`(?<=^|\\P{L})${r.replacement}(?=\\P{L}|$) ?\\(${r.replacement}\\)`, 'gu'), r.replacement)
+                const pathFileReplaced = pathFile.replaceAll(new RegExp(`(?<=^|\\P{L})${r.replacement}(?=\\P{L}|$) ?\\(${r.replacement}\\)`, 'gui'), r.replacement)
                 if(pathFile === pathFileReplaced)
                     return;
 
