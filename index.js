@@ -1,4 +1,5 @@
 const fs = require("fs");
+const path = require("path");
 const fse = require('fs-extra');
 
 const dryRun = true;
@@ -56,8 +57,11 @@ const traversePath = async (
     })));
 
     const rename = (src, dst) => {
-        if(fs.existsSync(dst))
-            return rename(src, dst + '_');
+        if(fs.existsSync(dst)) {
+            // '_' goes before the extension: "a.mp3" -> "a_.mp3", not "a.mp3_" (players stop seeing it as audio)
+            const {dir, name, ext} = path.parse(dst);
+            return rename(src, `${dir}/${name}_${ext}`);
+        }
 
         fse.move(src, dst);
     }
